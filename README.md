@@ -1,32 +1,50 @@
-# Vendas Web - React & TypeScript
+# React + TypeScript + Vite
 
-**Vendas Web** is an online sales platform that includes both a backend developed with Node.js, TypeScript, Nest.js, and Express, and a front-end built with React and TypeScript. This project integrates PostgreSQL with Prisma ORM for database management and provides a modern and interactive user interface for a complete sales experience.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Features
+Currently, two official plugins are available:
 
-- **Backend**:
-  - **Node.js & Express**: Robust REST API. 
-  - **TypeScript**: Strongly-typed development.
-  - **Prisma ORM**: Integration with PostgreSQL for database management.
-  - **Authentication**: Uses JSON Web Token (JWT) for security.
-  - **Linting & Formatting**: ESLint and Prettier for clean and consistent code.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-- **Front-end**:
-  - **React**: Interactive and dynamic user interface.
-  - **TypeScript**: Strong typing for better development experience.
-  - **UI5**: Utilizes UI5 library for components and styling.
+## Expanding the ESLint configuration
 
-## Requirements
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- **Node.js**: Version >= 18.x
-- **PostgreSQL**: Database server
-- **Prisma ORM**: For database interactions
-- **React**: For the front-end
+- Configure the top-level `parserOptions` property like this:
 
-## Installation
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+});
+```
 
-1. Clone the repository:
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-   ```bash
-   git clone https://github.com/hendrydeyvison/vendas-online-web.git
-   
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react';
+
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+});
+```

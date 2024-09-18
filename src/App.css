@@ -5,6 +5,15 @@
   text-align: center;
 }
 
+body {
+  background-image: url('/public/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh; /* Ajusta a altura da página para cobrir 100% da viewport */
+  margin: 0;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
