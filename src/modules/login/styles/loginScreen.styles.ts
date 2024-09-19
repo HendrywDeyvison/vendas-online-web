@@ -1,4 +1,7 @@
+import { Typography } from 'antd';
 import styled from 'styled-components';
+
+const { Title } = Typography;
 
 export const ContainerLoginScreen = styled.div`
   display: flex;
@@ -17,7 +20,11 @@ export const BackgroundImage = styled.img`
 `;
 
 export const LogoImage = styled.img`
-  width: 300px;
+  width: 210px;
+`;
+
+export const TitleLogin = styled(Title)`
+  color: #006397 !important;
 `;
 
 export const ContainerLogin = styled.div`

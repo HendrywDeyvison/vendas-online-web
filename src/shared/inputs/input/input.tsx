@@ -10,7 +10,7 @@ interface InputProps extends InputPropsAntd {
 const Input = ({ label, margin, ...props }: InputProps) => {
   return (
     <BoxInput style={{ margin }}>
-      <LabelInput>{label}</LabelInput>
+      <LabelInput strong>{label}</LabelInput>
       <InputAntd {...props} />
     </BoxInput>
   );
