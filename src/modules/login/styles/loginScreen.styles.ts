@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
+export const ContainerLoginScreen = styled.div`
+  display: flex;
+  justify-content: right;
+  align-items: center;
+`;
+
 export const BackgroundImage = styled.img`
   position: absolute;
   left: 0;
@@ -7,4 +13,30 @@ export const BackgroundImage = styled.img`
   width: 100%;
   height: 100vh;
   object-fit: cover;
+  z-index: -1;
+`;
+
+export const LogoImage = styled.img`
+  width: 300px;
+`;
+
+export const ContainerLogin = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  right: 0;
+  background-color: #d9d9d9;
+  width: 100%;
+  height: 100vh;
+  max-width: 646px;
+  padding: 22px;
+`;
+
+export const ContainerContentLogin = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
 `;

@@ -5,7 +5,8 @@
 ## Features
 
 - **Backend**:
-  - **Node.js & Express**: Robust REST API. 
+
+  - **Node.js & Express**: Robust REST API.
   - **TypeScript**: Strongly-typed development.
   - **Prisma ORM**: Integration with PostgreSQL for database management.
   - **Authentication**: Uses JSON Web Token (JWT) for security.
@@ -29,4 +30,5 @@
 
    ```bash
    git clone https://github.com/hendrydeyvison/vendas-online-web.git
-   
+
+   ```
