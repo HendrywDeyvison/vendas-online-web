@@ -19,10 +19,6 @@ export const BackgroundImage = styled.img`
   z-index: -1;
 `;
 
-export const LogoImage = styled.img`
-  width: 210px;
-`;
-
 export const TitleLogin = styled(Title)`
   color: #006397 !important;
 `;
