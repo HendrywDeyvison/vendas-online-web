@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 
+import { connectionAPIGet, connectionAPIPost } from '../functions/connections/connectionAPI';
 import { useGlobalContext } from './useGlobalContext';
 
 export const useRequests = () => {
@@ -10,16 +11,9 @@ export const useRequests = () => {
   const getRequest = async (url: string) => {
     setLoading(true);
 
-    const returnData = await axios({
-      method: 'get',
-      url: url,
-    })
-      .then((result) => result?.data)
-      .catch((error) => {
-        const msgError = error?.response?.data?.message || 'Bad Request';
-
-        setNotification('error', msgError, msgError);
-      });
+    const returnData = await connectionAPIGet(url).catch((error: Error) =>
+      setNotification('error', error?.message, error?.message),
+    );
 
     setLoading(false);
 
@@ -29,17 +23,9 @@ export const useRequests = () => {
   const postRequest = async (url: string, body: unknown) => {
     setLoading(true);
 
-    const returnData = await axios({
-      method: 'post',
-      url: url,
-      data: body,
-    })
-      .then((result) => result?.data)
-      .catch((error) => {
-        const msgError = error?.response?.data?.message || 'Bad Request';
-
-        setNotification('error', msgError, msgError);
-      });
+    const returnData = await connectionAPIPost(url, body).catch((error: Error) =>
+      setNotification('error', error?.message, error?.message),
+    );
 
     setLoading(false);
 
