@@ -14,7 +14,7 @@ import {
 } from '../styles/loginScreen.styles';
 
 const LoginScreen = () => {
-  const { accessToken, setAccessToken } = useGlobalContext();
+  const { accessToken, setAccessToken, setNotification } = useGlobalContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { postRequest, loading } = useRequests();
@@ -35,6 +35,7 @@ const LoginScreen = () => {
 
     if (resp) {
       setAccessToken(resp.accessToken);
+      setNotification('success', 'Login success, please await...');
     }
   };
 
