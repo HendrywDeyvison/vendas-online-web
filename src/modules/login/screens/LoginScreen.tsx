@@ -1,9 +1,10 @@
-import axios from 'axios';
 import { useState } from 'react';
 
 import Button from '../../../shared/components/buttons/button/button';
 import SVGLogo from '../../../shared/components/icons/SVGLogo';
 import Input from '../../../shared/components/inputs/input/input';
+import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
+import { useRequests } from '../../../shared/hooks/useRequests';
 import {
   BackgroundImage,
   ContainerContentLogin,
@@ -13,8 +14,10 @@ import {
 } from '../styles/loginScreen.styles';
 
 const LoginScreen = () => {
+  const { accessToken, setAccessToken } = useGlobalContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { postRequest, loading } = useRequests();
 
   const handleUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -25,28 +28,24 @@ const LoginScreen = () => {
   };
 
   const handleLogin = async () => {
-    const resp = await axios({
-      method: 'post',
-      url: 'http://localhost:8080/auth',
-      data: {
-        email: email,
-        password: password,
-      },
-    }).catch((error) => {
-      console.log(error);
+    const resp = await postRequest('http://localhost:8080/auth', {
+      email: email,
+      password: password,
     });
 
-    console.log(resp?.data);
+    if (resp) {
+      setAccessToken(resp.accessToken);
+    }
   };
 
   return (
     <div>
-      <BackgroundImage src="/background.png" />
       <ContainerLoginScreen>
+        <BackgroundImage src="/background.png" />
         <ContainerLogin>
           <ContainerContentLogin>
             <SVGLogo />
-            <TitleLogin level={1}>LOGIN</TitleLogin>
+            <TitleLogin level={1}>LOGIN ({accessToken})</TitleLogin>
             <Input label="USUÁRIO:" margin="32px 0px 0px" onChange={handleUsername} value={email} />
             <Input
               type="password"
@@ -55,7 +54,12 @@ const LoginScreen = () => {
               onChange={handlePassword}
               value={password}
             />
-            <Button type="primary" margin="64px 0px 16px 0px" onClick={handleLogin}>
+            <Button
+              loading={loading}
+              type="primary"
+              margin="64px 0px 16px 0px"
+              onClick={handleLogin}
+            >
               ENTRAR
             </Button>
           </ContainerContentLogin>

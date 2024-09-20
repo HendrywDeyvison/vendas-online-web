@@ -7,6 +7,8 @@ export const ContainerLoginScreen = styled.div`
   display: flex;
   justify-content: right;
   align-items: center;
+  width: 100%;
+  height: 100vh;
 `;
 
 export const BackgroundImage = styled.img`
