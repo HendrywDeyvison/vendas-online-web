@@ -11,7 +11,6 @@ import {
   ContainerLoginScreen,
   TitleLogin,
 } from '../styles/loginScreen.styles';
-import { AuthType } from '../types/AuthType';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
