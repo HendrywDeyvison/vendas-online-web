@@ -12,6 +12,7 @@ import {
   ContainerLoginScreen,
   TitleLogin,
 } from '../styles/loginScreen.styles';
+import { UserType } from '../types/UserType';
 
 const LoginScreen = () => {
   const { accessToken, setAccessToken, setNotification } = useGlobalContext();
@@ -28,13 +29,13 @@ const LoginScreen = () => {
   };
 
   const handleLogin = async () => {
-    const resp = await postRequest('http://localhost:8080/auth', {
+    const user = await postRequest<UserType>('http://localhost:8080/auth', {
       email: email,
       password: password,
     });
 
-    if (resp) {
-      setAccessToken(resp.accessToken);
+    if (user) {
+      setAccessToken(user?.accessToken);
       setNotification('success', 'Login success, please await...');
     }
   };
@@ -46,7 +47,7 @@ const LoginScreen = () => {
         <ContainerLogin>
           <ContainerContentLogin>
             <SVGLogo />
-            <TitleLogin level={1}>LOGIN ({accessToken})</TitleLogin>
+            <TitleLogin level={1}>LOGIN</TitleLogin>
             <Input label="USUÁRIO:" margin="32px 0px 0px" onChange={handleUsername} value={email} />
             <Input
               type="password"

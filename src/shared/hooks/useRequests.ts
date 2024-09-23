@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState } from 'react';
 
 import { connectionAPIGet, connectionAPIPost } from '../functions/connections/connectionAPI';
@@ -8,24 +7,28 @@ export const useRequests = () => {
   const [loading, setLoading] = useState(false);
   const { setNotification } = useGlobalContext();
 
-  const getRequest = async (url: string) => {
+  const getRequest = async <T>(url: string): Promise<T | undefined> => {
     setLoading(true);
 
-    const returnData = await connectionAPIGet(url).catch((error: Error) =>
-      setNotification('error', error?.message, error?.message),
-    );
+    const returnData = await connectionAPIGet<T>(url).catch((error: Error) => {
+      setNotification('error', error?.message, error?.message);
+
+      return undefined;
+    });
 
     setLoading(false);
 
     return returnData;
   };
 
-  const postRequest = async (url: string, body: unknown) => {
+  const postRequest = async <T>(url: string, body: unknown): Promise<T | undefined> => {
     setLoading(true);
 
-    const returnData = await connectionAPIPost(url, body).catch((error: Error) =>
-      setNotification('error', error?.message, error?.message),
-    );
+    const returnData = await connectionAPIPost<T>(url, body).catch((error: Error) => {
+      setNotification('error', error?.message, error?.message);
+
+      return undefined;
+    });
 
     setLoading(false);
 
