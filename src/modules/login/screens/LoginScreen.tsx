@@ -3,7 +3,6 @@ import { useState } from 'react';
 import Button from '../../../shared/components/buttons/button/button';
 import SVGLogo from '../../../shared/components/icons/SVGLogo';
 import Input from '../../../shared/components/inputs/input/input';
-import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import {
   BackgroundImage,
@@ -12,13 +11,12 @@ import {
   ContainerLoginScreen,
   TitleLogin,
 } from '../styles/loginScreen.styles';
-import { UserType } from '../types/UserType';
+import { AuthType } from '../types/AuthType';
 
 const LoginScreen = () => {
-  const { accessToken, setAccessToken, setNotification } = useGlobalContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { postRequest, loading } = useRequests();
+  const { authRequest, loading } = useRequests();
 
   const handleUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -29,15 +27,10 @@ const LoginScreen = () => {
   };
 
   const handleLogin = async () => {
-    const user = await postRequest<UserType>('http://localhost:8080/auth', {
-      email: email,
-      password: password,
+    await authRequest({
+      email,
+      password,
     });
-
-    if (user) {
-      setAccessToken(user?.accessToken);
-      setNotification('success', 'Login success, please await...');
-    }
   };
 
   return (

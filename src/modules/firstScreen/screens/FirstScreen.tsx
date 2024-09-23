@@ -2,18 +2,37 @@ import { Spin } from 'antd';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { getAuthorizationToken } from '../../../shared/functions/connections/auth';
+import { URL_USER } from '../../../shared/constants/urls';
+import {
+  getAuthorizationToken,
+  unsetAuthorizationToken,
+} from '../../../shared/functions/connections/auth';
+import { connectionAPIGet } from '../../../shared/functions/connections/connectionAPI';
+import { LoginRouteEnum } from '../../login/routes';
+import { ProductRouteEnum } from '../../product/routes';
 
 const FirstScreen = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const verifyToken = async () => {
     const token = getAuthorizationToken();
+
     if (token) {
-      navigate('/product');
+      await connectionAPIGet(URL_USER)
+        .then(() => {
+          navigate(ProductRouteEnum.PRODUCT);
+        })
+        .catch(() => {
+          unsetAuthorizationToken();
+          navigate(LoginRouteEnum.LOGIN);
+        });
     } else {
-      navigate('/login');
+      navigate(LoginRouteEnum.LOGIN);
     }
+  };
+
+  useEffect(() => {
+    verifyToken();
   }, []);
 
   return <Spin spinning={true} />;

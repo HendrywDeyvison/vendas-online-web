@@ -6,6 +6,7 @@ import {
   ERROR_INVALID_PASSWORD,
 } from '../../constants/errosStatus';
 import { MethodsEnum } from '../../enums/methods.enum';
+import { getAuthorizationToken } from './auth';
 
 export type MethodType = 'get' | 'post' | 'put' | 'patch' | 'delete';
 
@@ -14,6 +15,7 @@ export default class ConnectionAPI {
     const config: AxiosRequestConfig = {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: getAuthorizationToken(),
       },
     };
 
