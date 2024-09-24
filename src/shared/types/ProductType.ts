@@ -1,3 +1,5 @@
+import { CategoryType } from './CategoryType';
+
 export interface ProductType {
   id: number;
   name: string;
@@ -8,4 +10,5 @@ export interface ProductType {
   length: number;
   weight: number;
   diameter: number;
+  category?: CategoryType;
 }

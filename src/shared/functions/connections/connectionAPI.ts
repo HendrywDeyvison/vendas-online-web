@@ -1,10 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-import {
-  ERROR_ACCESS_DANIED,
-  ERROR_CONNECTION,
-  ERROR_INVALID_PASSWORD,
-} from '../../constants/errosStatus';
+import { ERROR_ACCESS_DANIED, ERROR_CONNECTION } from '../../constants/errosStatus';
 import { MethodsEnum } from '../../enums/methods.enum';
 import { getAuthorizationToken } from './auth';
 
@@ -38,8 +34,6 @@ export default class ConnectionAPI {
           case 401:
           case 403:
             throw new Error(ERROR_ACCESS_DANIED);
-          case 404:
-            throw new Error(ERROR_INVALID_PASSWORD);
           default:
             throw new Error(ERROR_CONNECTION);
         }

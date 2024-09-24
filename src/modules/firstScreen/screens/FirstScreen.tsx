@@ -13,7 +13,7 @@ const FirstScreen = () => {
     if (user) {
       navigate(ProductRouteEnum.PRODUCT);
     }
-  }, []);
+  }, [user]);
 
   return <Spin spinning={true} />;
 };
