@@ -8,18 +8,20 @@ import { verifyLoggedIn } from './shared/functions/connections/auth';
 import { useGlobalContext } from './shared/hooks/useGlobalContext';
 import { useNotification } from './shared/hooks/useNotification';
 
-const routes: RouteObject[] = [...loginRoutes, ...firstScreenRoutes];
-const routesLoggedIn: RouteObject[] = [...productScreens];
+const routes: RouteObject[] = [...loginRoutes];
+const routesLoggedIn: RouteObject[] = [...firstScreenRoutes, ...productScreens];
 
 function App() {
   const { contextHolder } = useNotification();
   const { user, setUser } = useGlobalContext();
 
+  const verifyUser = () => verifyLoggedIn(setUser, user);
+
   const router: RemixRouter = createBrowserRouter([
     ...routes,
     ...routesLoggedIn.map((route) => ({
       ...route,
-      loader: () => verifyLoggedIn(setUser, user),
+      loader: verifyUser,
     })),
   ]);
 

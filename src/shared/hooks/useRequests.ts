@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { AuthType } from '../../modules/login/types/AuthType';
 import { ProductRouteEnum } from '../../modules/product/routes';
-import { ERROR_INVALID_PASSWORD } from '../constants/errosStatus';
 import { URL_AUTH } from '../constants/urls';
 import { setAuthorizationToken } from '../functions/connections/auth';
 import { connectionAPIGet, connectionAPIPost } from '../functions/connections/connectionAPI';
@@ -54,7 +53,7 @@ export const useRequests = () => {
         return result;
       })
       .catch((error: Error) => {
-        setNotification('error', ERROR_INVALID_PASSWORD, error?.message);
+        setNotification('error', error?.message, error?.message);
 
         return undefined;
       });
