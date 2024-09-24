@@ -5,7 +5,10 @@ import { AuthType } from '../../modules/login/types/AuthType';
 import { ProductRouteEnum } from '../../modules/product/routes';
 import { URL_AUTH } from '../constants/urls';
 import { setAuthorizationToken } from '../functions/connections/auth';
-import { connectionAPIGet, connectionAPIPost } from '../functions/connections/connectionAPI';
+import ConnectionAPI, {
+  connectionAPIPost,
+  MethodType,
+} from '../functions/connections/connectionAPI';
 import { useGlobalContext } from './useGlobalContext';
 
 export const useRequests = () => {
@@ -13,32 +16,30 @@ export const useRequests = () => {
   const { setNotification, setUser } = useGlobalContext();
   const navigate = useNavigate();
 
-  const getRequest = async <T>(url: string): Promise<T | undefined> => {
+  const request = async <T>(
+    url: string,
+    method: MethodType,
+    saveGlobal?: (object: T) => void,
+    body?: unknown,
+  ): Promise<T | undefined> => {
     setLoading(true);
 
-    const returnData = await connectionAPIGet<T>(url).catch((error: Error) => {
-      setNotification('error', error?.message, error?.message);
+    const returnObject: T | undefined = await ConnectionAPI.connect<T>(url, method, body)
+      .then((result) => {
+        if (saveGlobal) {
+          saveGlobal(result);
+        }
+        return result;
+      })
+      .catch((error: Error) => {
+        setNotification('error', error?.message, error?.message);
 
-      return undefined;
-    });
+        return undefined;
+      });
 
     setLoading(false);
 
-    return returnData;
-  };
-
-  const postRequest = async <T>(url: string, body: unknown): Promise<T | undefined> => {
-    setLoading(true);
-
-    const returnData = await connectionAPIPost<T>(url, body).catch((error: Error) => {
-      setNotification('error', error?.message, error?.message);
-
-      return undefined;
-    });
-
-    setLoading(false);
-
-    return returnData;
+    return returnObject;
   };
 
   const authRequest = async (body: unknown): Promise<void> => {
@@ -64,7 +65,6 @@ export const useRequests = () => {
   return {
     loading,
     authRequest,
-    getRequest,
-    postRequest,
+    request,
   };
 };
