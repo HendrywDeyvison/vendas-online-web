@@ -35,7 +35,7 @@ export default class ConnectionAPI {
           case 403:
             throw new Error(ERROR_ACCESS_DANIED);
           default:
-            throw new Error(ERROR_CONNECTION);
+            throw new Error(error.response.data.message || ERROR_CONNECTION);
         }
       }
       throw new Error(ERROR_CONNECTION);
