@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '../../../shared/components/buttons/button/button';
 import Input from '../../../shared/components/inputs/input/input';
+import InputMeasure from '../../../shared/components/inputs/input/inputMeasure/inputMeasure';
+import InputMoney from '../../../shared/components/inputs/input/inputMoney/inputMoney';
 import Select from '../../../shared/components/inputs/select/select';
 import Screen from '../../../shared/components/screen/Screen';
 import { DisplayFlexRight } from '../../../shared/components/styles/display.style';
@@ -76,7 +78,7 @@ const ProductInsert = () => {
     });
   };
 
-  const handleChange = (value: string) => {
+  const handleChangeSelect = (value: string) => {
     setProduct({ ...product, categoryId: Number(value) });
   };
 
@@ -108,7 +110,7 @@ const ProductInsert = () => {
             margin="0px 0px 16px 0px"
             onChange={(event) => onChange(event, 'name')}
           />
-          <Input
+          <InputMoney
             value={product?.price}
             label="Preço:"
             placeholder="Preço"
@@ -122,35 +124,36 @@ const ProductInsert = () => {
             margin="0px 0px 16px 0px"
             onChange={(event) => onChange(event, 'image')}
           />
-          <Input
+          <InputMeasure
             value={product?.width}
             label="Largura:"
             placeholder="Largura"
             margin="0px 0px 16px 0px"
             onChange={(event) => onChange(event, 'width', true)}
           />
-          <Input
+          <InputMeasure
             value={product?.height}
             label="Altura:"
             placeholder="Altura"
             margin="0px 0px 16px 0px"
             onChange={(event) => onChange(event, 'height', true)}
           />
-          <Input
+          <InputMeasure
             value={product?.length}
             label="Comprimento:"
             placeholder="Comprimento"
             margin="0px 0px 16px 0px"
             onChange={(event) => onChange(event, 'length', true)}
           />
-          <Input
+          <InputMeasure
             value={product?.weight}
             label="Peso:"
             placeholder="Peso"
             margin="0px 0px 16px 0px"
+            addonBefore="Kg"
             onChange={(event) => onChange(event, 'weight', true)}
           />
-          <Input
+          <InputMeasure
             value={product?.diameter}
             label="Diametro:"
             placeholder="Diametro"
@@ -161,7 +164,7 @@ const ProductInsert = () => {
             label="Categoria:"
             margin={'0px 0px 32px 0px'}
             defaultValue="Selecione"
-            onChange={handleChange}
+            onChange={handleChangeSelect}
             options={[...listOptions]}
           />
 

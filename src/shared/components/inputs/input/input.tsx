@@ -2,7 +2,7 @@ import { Input as InputAntd, InputProps as InputPropsAntd } from 'antd';
 
 import { BoxInput, LabelInput } from './input.styles';
 
-interface InputProps extends InputPropsAntd {
+export interface InputProps extends InputPropsAntd {
   label?: string;
   margin?: string;
 }
