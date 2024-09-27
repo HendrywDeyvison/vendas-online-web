@@ -8,6 +8,5 @@ export const BoxSelect = styled.div`
 `;
 
 export const LabelSelect = styled(Text)`
-  display: block;
   margin: 8px;
 `;

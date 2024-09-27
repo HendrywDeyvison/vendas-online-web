@@ -1,19 +1,39 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Button from '../../../shared/components/buttons/button/button';
 import Input from '../../../shared/components/inputs/input/input';
+import Select from '../../../shared/components/inputs/select/select';
 import Screen from '../../../shared/components/screen/Screen';
-import Select from '../../../shared/components/selects/select/select';
-import { URL_CATEGORY } from '../../../shared/constants/urls';
+import { DisplayFlexRight } from '../../../shared/components/styles/display.style';
+import { LimitedContainer } from '../../../shared/components/styles/limitedConteiner.style';
+import { URL_CATEGORY, URL_PRODUCT } from '../../../shared/constants/urls';
+import { InsertProductDto } from '../../../shared/dtos/InsertProduct.dto';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
+import { connectionAPIPost } from '../../../shared/functions/connections/connectionAPI';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
+import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import { ProductRouteEnum } from '../routes';
-import { LimitedContainer } from '../styles/productInsert.style';
+import { ProductInsertContainer } from '../styles/productInsert.style';
 
 const ProductInsert = () => {
+  const [loading, setLoading] = useState(false);
+  const { setNotification } = useGlobalContext();
   const { categories, setCategories } = useDataContext();
   const { request } = useRequests();
+  const navigate = useNavigate();
+  const [product, setProduct] = useState<InsertProductDto>({
+    name: '',
+    price: 0,
+    image: '',
+    width: 0,
+    height: 0,
+    length: 0,
+    weight: 0,
+    diameter: 0,
+    categoryId: 0,
+  });
 
   const loadCategories = () => {
     request(URL_CATEGORY, MethodsEnum.GET, setCategories);
@@ -45,38 +65,120 @@ const ProductInsert = () => {
     };
   });
 
+  const onChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    nameObject: string,
+    isNumber?: boolean,
+  ) => {
+    setProduct({
+      ...product,
+      [nameObject]: isNumber ? Number(event.target.value) : event.target.value,
+    });
+  };
+
   const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
+    setProduct({ ...product, categoryId: Number(value) });
+  };
+
+  const handleOnClickCancel = () => {
+    navigate(ProductRouteEnum.PRODUCT);
+  };
+
+  const handleOnClickInsert = async () => {
+    setLoading(true);
+
+    await connectionAPIPost(URL_PRODUCT, product).catch((error: Error) => {
+      setNotification('error', 'Erro ao tentar inserir um novo produto', error.message);
+    });
+
+    setLoading(false);
+
+    setNotification('success', 'Sucesso!', 'Produto inserido com sucesso!');
+    navigate(ProductRouteEnum.PRODUCT);
   };
 
   return (
     <Screen listBreadcrumb={listBreadcrumb}>
-      <LimitedContainer>
-        <Input label="Nome:" placeholder="Nome" margin="0px 0px 16px 0px" />
-        <Input label="Preço:" placeholder="Preço" margin="0px 0px 16px 0px" />
-        <Input label="Url Imagem:" placeholder="Url Imagem" margin="0px 0px 16px 0px" />
-        <Input label="Largura:" placeholder="Largura" margin="0px 0px 16px 0px" />
-        <Input label="Altura:" placeholder="Altura" margin="0px 0px 16px 0px" />
-        <Input label="Comprimento:" placeholder="Comprimento" margin="0px 0px 16px 0px" />
-        <Input label="Peso:" placeholder="Peso" margin="0px 0px 16px 0px" />
-        <Input label="Diametro:" placeholder="Diametro" margin="0px 0px 16px 0px" />
-        <Select
-          label="Categoria:"
-          width={'100%'}
-          margin={'0px 0px 16px 0px'}
-          defaultValue="Selecione"
-          onChange={handleChange}
-          options={[
-            {
-              value: 'Selecione',
-              label: 'Selecione',
-              disabled: true,
-            },
-            ...listOptions,
-          ]}
-        />
-        <Button type="primary">Inserir Produto</Button>
-      </LimitedContainer>
+      <ProductInsertContainer>
+        <LimitedContainer width="400px">
+          <Input
+            value={product?.name}
+            label="Nome:"
+            placeholder="Nome"
+            margin="0px 0px 16px 0px"
+            onChange={(event) => onChange(event, 'name')}
+          />
+          <Input
+            value={product?.price}
+            label="Preço:"
+            placeholder="Preço"
+            margin="0px 0px 16px 0px"
+            onChange={(event) => onChange(event, 'price', true)}
+          />
+          <Input
+            value={product?.image}
+            label="Url Imagem:"
+            placeholder="Url Imagem"
+            margin="0px 0px 16px 0px"
+            onChange={(event) => onChange(event, 'image')}
+          />
+          <Input
+            value={product?.width}
+            label="Largura:"
+            placeholder="Largura"
+            margin="0px 0px 16px 0px"
+            onChange={(event) => onChange(event, 'width', true)}
+          />
+          <Input
+            value={product?.height}
+            label="Altura:"
+            placeholder="Altura"
+            margin="0px 0px 16px 0px"
+            onChange={(event) => onChange(event, 'height', true)}
+          />
+          <Input
+            value={product?.length}
+            label="Comprimento:"
+            placeholder="Comprimento"
+            margin="0px 0px 16px 0px"
+            onChange={(event) => onChange(event, 'length', true)}
+          />
+          <Input
+            value={product?.weight}
+            label="Peso:"
+            placeholder="Peso"
+            margin="0px 0px 16px 0px"
+            onChange={(event) => onChange(event, 'weight', true)}
+          />
+          <Input
+            value={product?.diameter}
+            label="Diametro:"
+            placeholder="Diametro"
+            margin="0px 0px 16px 0px"
+            onChange={(event) => onChange(event, 'diameter', true)}
+          />
+          <Select
+            label="Categoria:"
+            margin={'0px 0px 32px 0px'}
+            defaultValue="Selecione"
+            onChange={handleChange}
+            options={[...listOptions]}
+          />
+
+          <DisplayFlexRight>
+            <LimitedContainer width="120px" margin="0px 16px">
+              <Button danger type="primary" onClick={handleOnClickCancel}>
+                Cancelar
+              </Button>
+            </LimitedContainer>
+            <LimitedContainer width="120px">
+              <Button loading={loading} type="primary" onClick={handleOnClickInsert}>
+                Inserir Produto
+              </Button>
+            </LimitedContainer>
+          </DisplayFlexRight>
+        </LimitedContainer>
+      </ProductInsertContainer>
     </Screen>
   );
 };

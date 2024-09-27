@@ -5,14 +5,13 @@ import { BoxSelect, LabelSelect } from './select.style';
 interface SelectProps extends SelectPropsAntd {
   label?: string;
   margin?: string;
-  width?: string;
 }
 
-const Select = ({ label, margin, width, ...props }: SelectProps) => {
+const Select = ({ label, margin, ...props }: SelectProps) => {
   return (
     <BoxSelect style={{ margin }}>
-      <LabelSelect strong>{label}</LabelSelect>
-      <SelectAntd style={{ width }} {...props} />
+      {label && <LabelSelect strong>{label}</LabelSelect>}
+      <SelectAntd style={{ width: '100%' }} {...props} />
     </BoxSelect>
   );
 };
