@@ -10,5 +10,5 @@ export interface ProductType {
   length: number;
   weight: number;
   diameter: number;
-  category?: CategoryType;
+  category: CategoryType;
 }
