@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '../../../shared/components/buttons/button/Button';
 import Input from '../../../shared/components/inputs/input/Input';
-import InputMeasure from '../../../shared/components/inputs/input/inputMeasure/inputMeasure';
+import InputMeasure from '../../../shared/components/inputs/input/inputMeasure/InputMeasure';
 import InputMoney from '../../../shared/components/inputs/input/inputMoney/inputMoney';
 import Select from '../../../shared/components/inputs/select/Select';
 import Screen from '../../../shared/components/screen/Screen';
@@ -82,7 +82,6 @@ const ProductInsert = () => {
             margin="0px 0px 16px 0px"
             onChange={(event) => onChangeInput(event, 'price', true)}
           />
-
           <InputMeasure
             value={product?.length}
             label="Comprimento:"
