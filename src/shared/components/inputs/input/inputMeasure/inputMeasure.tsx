@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useFormatNumbers } from '../../../../hooks/useFormatNumbers';
-import Input, { InputProps } from '../input';
+import Input, { InputProps } from '../Input';
 
 interface InputMeasureProps extends InputProps {
   value: number;

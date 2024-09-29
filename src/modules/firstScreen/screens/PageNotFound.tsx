@@ -1,7 +1,7 @@
 import { Result } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
-import Button from '../../../shared/components/buttons/button/button';
+import Button from '../../../shared/components/buttons/button/Button';
 import { LoginRouteEnum } from '../../login/routes';
 import { ContainerPageNotFound } from '../styles/pageNotFound.styles';
 

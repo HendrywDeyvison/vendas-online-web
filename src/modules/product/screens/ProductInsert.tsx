@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Button from '../../../shared/components/buttons/button/button';
-import Input from '../../../shared/components/inputs/input/input';
+import Button from '../../../shared/components/buttons/button/Button';
+import Input from '../../../shared/components/inputs/input/Input';
 import InputMeasure from '../../../shared/components/inputs/input/inputMeasure/inputMeasure';
 import InputMoney from '../../../shared/components/inputs/input/inputMoney/inputMoney';
-import Select from '../../../shared/components/inputs/select/select';
+import Select from '../../../shared/components/inputs/select/Select';
 import Screen from '../../../shared/components/screen/Screen';
 import { DisplayFlexRight } from '../../../shared/components/styles/display.style';
 import { LimitedContainer } from '../../../shared/components/styles/limitedConteiner.style';
