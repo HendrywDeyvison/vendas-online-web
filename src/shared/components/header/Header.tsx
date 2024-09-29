@@ -1,10 +1,12 @@
 import { Modal } from 'antd';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { logOut } from '../../functions/connections/auth';
 import { ContainerHeader, LogoExit } from './header.style';
 
 const Header = () => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -13,7 +15,7 @@ const Header = () => {
 
   const handleOk = () => {
     setIsModalOpen(false);
-    logOut();
+    logOut(navigate);
   };
 
   const handleCancel = () => {

@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { NavigateFunction } from 'react-router-dom';
 
+import { FirstScreenRouteEnum } from '../../modules/firstScreen/routes';
 import { AuthType } from '../../modules/login/types/AuthType';
-import { ProductRouteEnum } from '../../modules/product/routes';
 import { URL_AUTH } from '../constants/urls';
 import { setAuthorizationToken } from '../functions/connections/auth';
 import ConnectionAPI, {
@@ -40,7 +41,7 @@ export const useRequests = () => {
     return returnObject;
   };
 
-  const authRequest = async (body: unknown): Promise<void> => {
+  const authRequest = async (navigate: NavigateFunction, body: unknown): Promise<void> => {
     setLoading(true);
 
     await connectionAPIPost<AuthType>(URL_AUTH, body)
@@ -48,7 +49,7 @@ export const useRequests = () => {
         setNotification('success', 'Login success, please await...');
         setUser(result.user);
         setAuthorizationToken(result.accessToken);
-        location.href = ProductRouteEnum.PRODUCT;
+        navigate(FirstScreenRouteEnum.FIRST_SCREEN);
         return result;
       })
       .catch((error: Error) => {
