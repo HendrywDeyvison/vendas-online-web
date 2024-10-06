@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../../../shared/components/buttons/button/Button';
@@ -8,12 +9,17 @@ import Select from '../../../shared/components/inputs/select/Select';
 import Screen from '../../../shared/components/screen/Screen';
 import { DisplayFlexRight } from '../../../shared/components/styles/display.style';
 import { LimitedContainer } from '../../../shared/components/styles/limitedConteiner.style';
-import { useCategory } from '../../category/hooks/useCategory';
-import { useInsertProduct } from '../hooks/useInsertProduct';
-import { ProductRouteEnum } from '../routes';
+import { URL_CATEGORY } from '../../../shared/constants/urls';
+import { MethodsEnum } from '../../../shared/enums/methods.enum';
+import { useDataContext } from '../../../shared/hooks/useDataContext';
+import { useRequests } from '../../../shared/hooks/useRequests';
+import { useInsertProduct } from '../hooks/useInsertCategory';
+import { CategoryRouteEnum } from '../routes';
 import { ProductInsertContainer } from '../styles/productInsert.style';
 
-const ProductInsert = () => {
+const CategoryInsert = () => {
+  const { categories, setCategories } = useDataContext();
+  const { request } = useRequests();
   const navigate = useNavigate();
   const {
     product,
@@ -24,18 +30,26 @@ const ProductInsert = () => {
     handleOnClickInsert,
   } = useInsertProduct();
 
-  const { categories } = useCategory();
+  const loadCategories = () => {
+    request(URL_CATEGORY, MethodsEnum.GET, setCategories);
+  };
+
+  useEffect(() => {
+    if (categories.length === 0) {
+      loadCategories();
+    }
+  }, []);
 
   const listBreadcrumb = [
     {
       title: 'Home',
     },
     {
-      title: 'PRODUTOS',
-      navigateTo: ProductRouteEnum.PRODUCT,
+      title: 'CATEGORIAS',
+      navigateTo: CategoryRouteEnum.CATEGORY,
     },
     {
-      title: 'INSERIR PRODUTO',
+      title: 'INSERIR CATEGORIA',
     },
   ];
 
@@ -47,7 +61,7 @@ const ProductInsert = () => {
   });
 
   const handleOnClickCancel = () => {
-    navigate(ProductRouteEnum.PRODUCT);
+    navigate(CategoryRouteEnum.CATEGORY);
   };
 
   return (
@@ -142,4 +156,4 @@ const ProductInsert = () => {
   );
 };
 
-export default ProductInsert;
+export default CategoryInsert;
