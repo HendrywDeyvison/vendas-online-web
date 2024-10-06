@@ -1,67 +1,45 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { URL_PRODUCT } from '../../../shared/constants/urls';
-import { InsertProductDto } from '../../../shared/dtos/InsertProduct.dto';
+import { URL_CATEGORY } from '../../../shared/constants/urls';
 import { connectionAPIPost } from '../../../shared/functions/connections/connectionAPI';
 import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import { CategoryRouteEnum } from '../routes';
+import { InsertCategoryDto } from './../../../shared/dtos/insertCategory.dto';
 
-export const useInsertProduct = () => {
+export const useInsertCategory = () => {
   const navigate = useNavigate();
   const { setNotification } = useGlobalContext();
   const [loading, setLoading] = useState(false);
   const [disabledButton, setDisabledButton] = useState(true);
-  const [product, setProduct] = useState<InsertProductDto>({
+  const [category, setCategory] = useState<InsertCategoryDto>({
     name: '',
-    price: 0,
-    image: '',
-    width: 0,
-    height: 0,
-    length: 0,
-    weight: 0,
-    diameter: 0,
-    categoryId: 0,
   });
 
   useEffect(() => {
-    if (
-      product.name &&
-      product.price &&
-      product.image &&
-      product.width &&
-      product.height &&
-      product['length'] &&
-      product.weight &&
-      product.diameter &&
-      product.categoryId
-    ) {
+    if (category.name) {
       setDisabledButton(false);
     } else {
       setDisabledButton(true);
     }
-  }, [product]);
+  }, [category]);
 
   const onChangeInput = (
     event: React.ChangeEvent<HTMLInputElement>,
     nameObject: string,
     isNumber?: boolean,
   ) => {
-    setProduct({
-      ...product,
+    setCategory({
+      ...category,
       [nameObject]: isNumber ? Number(event.target.value) : event.target.value,
     });
-  };
-
-  const handleChangeSelect = (value: string) => {
-    setProduct({ ...product, categoryId: Number(value) });
   };
 
   const handleOnClickInsert = async () => {
     setLoading(true);
 
-    await connectionAPIPost(URL_PRODUCT, product).catch((error: Error) => {
-      setNotification('error', 'Erro ao tentar inserir um novo produto', error.message);
+    await connectionAPIPost(URL_CATEGORY, category).catch((error: Error) => {
+      setNotification('error', 'Erro ao tentar inserir a nova categoria', error.message);
     });
 
     setLoading(false);
@@ -71,11 +49,10 @@ export const useInsertProduct = () => {
   };
 
   return {
-    product,
+    category,
     loading,
     disabledButton,
     onChangeInput,
-    handleChangeSelect,
     handleOnClickInsert,
   };
 };

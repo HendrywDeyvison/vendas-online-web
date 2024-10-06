@@ -6,12 +6,14 @@ import InputMeasure from '../../../shared/components/inputs/input/inputMeasure/I
 import InputMoney from '../../../shared/components/inputs/input/inputMoney/inputMoney';
 import Select from '../../../shared/components/inputs/select/Select';
 import Screen from '../../../shared/components/screen/Screen';
-import { DisplayFlexRight } from '../../../shared/components/styles/display.style';
+import {
+  DisplayFlexJustifyCenter,
+  DisplayFlexJustifyRight,
+} from '../../../shared/components/styles/display.style';
 import { LimitedContainer } from '../../../shared/components/styles/limitedConteiner.style';
 import { useCategory } from '../../category/hooks/useCategory';
 import { useInsertProduct } from '../hooks/useInsertProduct';
 import { ProductRouteEnum } from '../routes';
-import { ProductInsertContainer } from '../styles/productInsert.style';
 
 const ProductInsert = () => {
   const navigate = useNavigate();
@@ -52,7 +54,7 @@ const ProductInsert = () => {
 
   return (
     <Screen listBreadcrumb={listBreadcrumb}>
-      <ProductInsertContainer>
+      <DisplayFlexJustifyCenter>
         <LimitedContainer width="400px">
           <Input
             value={product?.name}
@@ -119,7 +121,7 @@ const ProductInsert = () => {
             options={[...listOptions]}
           />
 
-          <DisplayFlexRight>
+          <DisplayFlexJustifyRight>
             <LimitedContainer width="120px" margin="0px 16px">
               <Button danger type="primary" onClick={handleOnClickCancel}>
                 Cancelar
@@ -135,9 +137,9 @@ const ProductInsert = () => {
                 Inserir Produto
               </Button>
             </LimitedContainer>
-          </DisplayFlexRight>
+          </DisplayFlexJustifyRight>
         </LimitedContainer>
-      </ProductInsertContainer>
+      </DisplayFlexJustifyCenter>
     </Screen>
   );
 };

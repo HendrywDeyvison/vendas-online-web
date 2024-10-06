@@ -92,7 +92,7 @@ const Menu = () => {
         theme="dark"
         onClick={onClick}
         style={{ width: 240 }}
-        defaultOpenKeys={['products']}
+        defaultOpenKeys={['home']}
         selectedKeys={[current]}
         mode="inline"
         items={items}

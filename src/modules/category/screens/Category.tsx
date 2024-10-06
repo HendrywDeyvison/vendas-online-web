@@ -4,17 +4,16 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '../../../shared/components/buttons/button/Button';
 import Screen from '../../../shared/components/screen/Screen';
+import { DisplayFlexJustifyBetween } from '../../../shared/components/styles/display.style';
+import { LimitedContainer } from '../../../shared/components/styles/limitedConteiner.style';
 import Table from '../../../shared/components/table/Table';
-import { URL_PRODUCT } from '../../../shared/constants/urls';
+import { URL_CATEGORY } from '../../../shared/constants/urls';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
-import { convertNumberToMoney } from '../../../shared/functions/currency';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
-import { ProductType } from '../../../shared/types/ProductType';
-import CategoryColumn from '../components/CategoryColumn';
-import TooltipImage from '../components/TooltipImage';
+import { CategoryType } from '../../../shared/types/CategoryType';
+import { useCategory } from '../hooks/useCategory';
 import { CategoryRouteEnum } from '../routes';
-import { BoxButtons, LimiteSizeButton, LimiteSizeInput } from '../styles/product.style';
 
 const listBreadcrumb = [
   {
@@ -25,13 +24,12 @@ const listBreadcrumb = [
   },
 ];
 
-const columns: TableProps<ProductType>['columns'] = [
+const columns: TableProps<CategoryType>['columns'] = [
   {
     title: 'Id',
     dataIndex: 'id',
     key: 'id',
     sorter: (a, b) => a.id - b.id,
-    render: (_, product) => <TooltipImage product={product} />,
   },
   {
     title: 'Nome',
@@ -41,18 +39,11 @@ const columns: TableProps<ProductType>['columns'] = [
     render: (text) => <a>{text}</a>,
   },
   {
-    title: 'Categoria',
-    dataIndex: 'category',
-    key: 'category',
-    sorter: (a, b) => a.category.name.localeCompare(b.category.name),
-    render: (_, product) => <CategoryColumn category={product.category} />,
-  },
-  {
-    title: 'Preço',
-    dataIndex: 'price',
-    key: 'price',
-    sorter: (a, b) => a.price - b.price,
-    render: (_, product) => <a>{convertNumberToMoney(product.price)}</a>,
+    title: 'Qtd. Produtos',
+    dataIndex: 'amountProducts',
+    key: 'amountProducts',
+    sorter: (a, b) => a.amountProducts - b.amountProducts,
+    render: (text) => <a>{text}</a>,
   },
 ];
 
@@ -61,20 +52,18 @@ const { Search } = Input;
 type SearchProps = GetProps<typeof Input.Search>;
 
 const Category = () => {
-  const { products, setProducts } = useDataContext();
-  const [productsFiltered, setProductsFiltered] = useState<ProductType[]>();
+  const { setCategories } = useDataContext();
+  const { categories } = useCategory();
+  const [categoriesFiltered, setCategoriesFiltered] = useState<CategoryType[]>();
   const { request } = useRequests();
   const navigate = useNavigate();
-  const loadProducts = async () => {
-    request(URL_PRODUCT, MethodsEnum.GET, setProducts);
-  };
 
   useEffect(() => {
-    setProductsFiltered(products);
-  }, [products]);
+    setCategoriesFiltered(categories);
+  }, [categories]);
 
   useEffect(() => {
-    loadProducts();
+    request(URL_CATEGORY, MethodsEnum.GET, setCategories);
   }, []);
 
   const handleOnClickInsert = () => {
@@ -83,27 +72,29 @@ const Category = () => {
 
   const onSearch: SearchProps['onSearch'] = (value: string) => {
     if (value.length) {
-      setProductsFiltered(
-        products?.filter((product) => product.name.toLowerCase().includes(value.toLowerCase())),
+      setCategoriesFiltered(
+        categories?.filter((category) => category.name.toLowerCase().includes(value.toLowerCase())),
       );
     } else {
-      setProductsFiltered([...products]);
+      setCategoriesFiltered([...categories]);
     }
   };
 
   return (
     <Screen listBreadcrumb={listBreadcrumb}>
-      <BoxButtons>
-        <LimiteSizeInput>
+      <DisplayFlexJustifyBetween margin="0px 0px 16px 0px">
+        <LimitedContainer width={'240px'}>
           <Search placeholder="Buscar categoria" onSearch={onSearch} enterButton />
-        </LimiteSizeInput>
+        </LimitedContainer>
 
-        <LimiteSizeButton>
+        <LimitedContainer width={'120px'}>
           <Button type="primary" onClick={handleOnClickInsert}>
             Inserir
           </Button>
-        </LimiteSizeButton>
-      </BoxButtons>
+        </LimitedContainer>
+      </DisplayFlexJustifyBetween>
+
+      <Table columns={columns} dataSource={categoriesFiltered} />
     </Screen>
   );
 };

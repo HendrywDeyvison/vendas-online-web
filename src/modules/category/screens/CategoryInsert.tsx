@@ -3,32 +3,25 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '../../../shared/components/buttons/button/Button';
 import Input from '../../../shared/components/inputs/input/Input';
-import InputMeasure from '../../../shared/components/inputs/input/inputMeasure/InputMeasure';
-import InputMoney from '../../../shared/components/inputs/input/inputMoney/inputMoney';
-import Select from '../../../shared/components/inputs/select/Select';
 import Screen from '../../../shared/components/screen/Screen';
-import { DisplayFlexRight } from '../../../shared/components/styles/display.style';
+import {
+  DisplayFlexJustifyCenter,
+  DisplayFlexJustifyRight,
+} from '../../../shared/components/styles/display.style';
 import { LimitedContainer } from '../../../shared/components/styles/limitedConteiner.style';
 import { URL_CATEGORY } from '../../../shared/constants/urls';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
-import { useInsertProduct } from '../hooks/useInsertCategory';
+import { useInsertCategory } from '../hooks/useInsertCategory';
 import { CategoryRouteEnum } from '../routes';
-import { ProductInsertContainer } from '../styles/productInsert.style';
 
 const CategoryInsert = () => {
   const { categories, setCategories } = useDataContext();
   const { request } = useRequests();
   const navigate = useNavigate();
-  const {
-    product,
-    loading,
-    disabledButton,
-    onChangeInput,
-    handleChangeSelect,
-    handleOnClickInsert,
-  } = useInsertProduct();
+  const { category, loading, disabledButton, onChangeInput, handleOnClickInsert } =
+    useInsertCategory();
 
   const loadCategories = () => {
     request(URL_CATEGORY, MethodsEnum.GET, setCategories);
@@ -53,87 +46,22 @@ const CategoryInsert = () => {
     },
   ];
 
-  const listOptions = categories.map((category) => {
-    return {
-      value: category.id,
-      label: category.name,
-    };
-  });
-
   const handleOnClickCancel = () => {
     navigate(CategoryRouteEnum.CATEGORY);
   };
 
   return (
     <Screen listBreadcrumb={listBreadcrumb}>
-      <ProductInsertContainer>
+      <DisplayFlexJustifyCenter>
         <LimitedContainer width="400px">
           <Input
-            value={product?.name}
+            value={category?.name}
             label="Nome:"
             placeholder="Nome"
             margin="0px 0px 16px 0px"
             onChange={(event) => onChangeInput(event, 'name')}
           />
-          <InputMoney
-            value={product?.price}
-            label="Preço:"
-            placeholder="Preço"
-            margin="0px 0px 16px 0px"
-            onChange={(event) => onChangeInput(event, 'price', true)}
-          />
-          <InputMeasure
-            value={product?.length}
-            label="Comprimento:"
-            placeholder="Comprimento"
-            margin="0px 0px 16px 0px"
-            onChange={(event) => onChangeInput(event, 'length', true)}
-          />
-          <InputMeasure
-            value={product?.height}
-            label="Altura:"
-            placeholder="Altura"
-            margin="0px 0px 16px 0px"
-            onChange={(event) => onChangeInput(event, 'height', true)}
-          />
-          <InputMeasure
-            value={product?.width}
-            label="Largura:"
-            placeholder="Largura"
-            margin="0px 0px 16px 0px"
-            onChange={(event) => onChangeInput(event, 'width', true)}
-          />
-          <InputMeasure
-            value={product?.weight}
-            label="Peso:"
-            placeholder="Peso"
-            margin="0px 0px 16px 0px"
-            addonBefore="Kg"
-            onChange={(event) => onChangeInput(event, 'weight', true)}
-          />
-          <InputMeasure
-            value={product?.diameter}
-            label="Diametro:"
-            placeholder="Diametro"
-            margin="0px 0px 16px 0px"
-            onChange={(event) => onChangeInput(event, 'diameter', true)}
-          />
-          <Input
-            value={product?.image}
-            label="Url Imagem:"
-            placeholder="Url Imagem"
-            margin="0px 0px 16px 0px"
-            onChange={(event) => onChangeInput(event, 'image')}
-          />
-          <Select
-            label="Categoria:"
-            margin={'0px 0px 32px 0px'}
-            defaultValue="Selecione"
-            onChange={handleChangeSelect}
-            options={[...listOptions]}
-          />
-
-          <DisplayFlexRight>
+          <DisplayFlexJustifyRight>
             <LimitedContainer width="120px" margin="0px 16px">
               <Button danger type="primary" onClick={handleOnClickCancel}>
                 Cancelar
@@ -146,12 +74,12 @@ const CategoryInsert = () => {
                 type="primary"
                 onClick={handleOnClickInsert}
               >
-                Inserir Produto
+                Inserir Categoria
               </Button>
             </LimitedContainer>
-          </DisplayFlexRight>
+          </DisplayFlexJustifyRight>
         </LimitedContainer>
-      </ProductInsertContainer>
+      </DisplayFlexJustifyCenter>
     </Screen>
   );
 };

@@ -13,7 +13,7 @@ export const useCategory = () => {
     if (categories?.length === 0) {
       request(URL_CATEGORY, MethodsEnum.GET, setCategories);
     }
-  }, []);
+  }, [categories]);
 
   return {
     categories,
