@@ -10,9 +10,9 @@ import Table from '../../../shared/components/table/Table';
 import { URL_PRODUCT } from '../../../shared/constants/urls';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
 import { convertNumberToMoney } from '../../../shared/functions/currency';
-import { useDataContext } from '../../../shared/hooks/useDataContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import { ProductType } from '../../../shared/types/ProductType';
+import { useProductReducer } from '../../../store/reducers/productReducer/useProductReducer';
 import CategoryColumn from '../components/CategoryColumn';
 import TooltipImage from '../components/TooltipImage';
 import { ProductRouteEnum } from '../routes';
@@ -62,20 +62,17 @@ const columns: TableProps<ProductType>['columns'] = [
 const { Search } = Input;
 
 const Product = () => {
-  const { products, setProducts } = useDataContext();
+  const { products, setProducts } = useProductReducer();
   const [productsFiltered, setProductsFiltered] = useState<ProductType[]>();
   const { request } = useRequests();
   const navigate = useNavigate();
-  const loadProducts = async () => {
-    request(URL_PRODUCT, MethodsEnum.GET, setProducts);
-  };
 
   useEffect(() => {
     setProductsFiltered(products);
   }, [products]);
 
   useEffect(() => {
-    loadProducts();
+    request(URL_PRODUCT, MethodsEnum.GET, setProducts);
   }, []);
 
   const handleOnClickInsert = () => {
