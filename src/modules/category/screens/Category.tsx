@@ -9,10 +9,9 @@ import { LimitedContainer } from '../../../shared/components/styles/limitedConte
 import Table from '../../../shared/components/table/Table';
 import { URL_CATEGORY } from '../../../shared/constants/urls';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
-import { useDataContext } from '../../../shared/hooks/useDataContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import { CategoryType } from '../../../shared/types/CategoryType';
-import { useCategory } from '../hooks/useCategory';
+import { useCategoryReducer } from '../../../store/reducers/categoryReducer/useCategoryReducer';
 import { CategoryRouteEnum } from '../routes';
 
 const listBreadcrumb = [
@@ -52,8 +51,7 @@ const { Search } = Input;
 type SearchProps = GetProps<typeof Input.Search>;
 
 const Category = () => {
-  const { setCategories } = useDataContext();
-  const { categories } = useCategory();
+  const { categories, setCategories } = useCategoryReducer();
   const [categoriesFiltered, setCategoriesFiltered] = useState<CategoryType[]>();
   const { request } = useRequests();
   const navigate = useNavigate();

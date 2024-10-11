@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { URL_CATEGORY } from '../../../shared/constants/urls';
 import { connectionAPIPost } from '../../../shared/functions/connections/connectionAPI';
-import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
+import { useGlobalReducer } from '../../../store/reducers/globalReducer/useGlobalReducer';
 import { CategoryRouteEnum } from '../routes';
 import { InsertCategoryDto } from './../../../shared/dtos/insertCategory.dto';
 
 export const useInsertCategory = () => {
   const navigate = useNavigate();
-  const { setNotification } = useGlobalContext();
+  const { setNotification } = useGlobalReducer();
   const [loading, setLoading] = useState(false);
   const [disabledButton, setDisabledButton] = useState(true);
   const [category, setCategory] = useState<InsertCategoryDto>({

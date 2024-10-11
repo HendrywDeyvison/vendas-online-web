@@ -11,13 +11,13 @@ import {
 import { LimitedContainer } from '../../../shared/components/styles/limitedConteiner.style';
 import { URL_CATEGORY } from '../../../shared/constants/urls';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
-import { useDataContext } from '../../../shared/hooks/useDataContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
+import { useCategoryReducer } from '../../../store/reducers/categoryReducer/useCategoryReducer';
 import { useInsertCategory } from '../hooks/useInsertCategory';
 import { CategoryRouteEnum } from '../routes';
 
 const CategoryInsert = () => {
-  const { categories, setCategories } = useDataContext();
+  const { categories, setCategories } = useCategoryReducer();
   const { request } = useRequests();
   const navigate = useNavigate();
   const { category, loading, disabledButton, onChangeInput, handleOnClickInsert } =
