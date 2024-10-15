@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { CategoryRouteEnum } from '../../../modules/category/routes';
+import { OrderRouteEnum } from '../../../modules/orders/routes';
 import { ProductRouteEnum } from '../../../modules/product/routes';
 import { ContainerLogoName, ContainerMenu, LogoMenu, NameCompany } from './menu.style';
 
@@ -69,6 +70,7 @@ const Menu = () => {
     {
       key: 'order',
       label: 'Pedidos',
+      onClick: () => navigate(OrderRouteEnum.ORDER),
       icon: <SafetyCertificateOutlined />,
     },
     {
