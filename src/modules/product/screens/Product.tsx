@@ -21,7 +21,7 @@ type SearchProps = GetProps<typeof Input.Search>;
 
 const listBreadcrumb = [
   {
-    title: 'Home',
+    title: 'HOME',
   },
   {
     title: 'PRODUTOS',

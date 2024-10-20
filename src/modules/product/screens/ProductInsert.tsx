@@ -30,7 +30,7 @@ const ProductInsert = () => {
 
   const listBreadcrumb = [
     {
-      title: 'Home',
+      title: 'HOME',
     },
     {
       title: 'PRODUTOS',

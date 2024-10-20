@@ -4,10 +4,12 @@ import { OrderType } from '../../../shared/types/OrderType';
 
 interface OrderState {
   orders: OrderType[];
+  order?: OrderType[];
 }
 
 const initialState: OrderState = {
   orders: [],
+  order: undefined,
 };
 
 export const orderReducer = createSlice({
@@ -17,9 +19,12 @@ export const orderReducer = createSlice({
     setOrdersAction: (state, action: PayloadAction<OrderType[]>) => {
       state.orders = action.payload;
     },
+    setOrderAction: (state, action: PayloadAction<OrderType[]>) => {
+      state.order = action.payload;
+    },
   },
 });
 
-export const { setOrdersAction } = orderReducer.actions;
+export const { setOrdersAction, setOrderAction } = orderReducer.actions;
 
 export default orderReducer.reducer;

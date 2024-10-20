@@ -16,7 +16,7 @@ import { OrderRouteEnum } from '../routes';
 
 const listBreadcrumb = [
   {
-    title: 'Home',
+    title: 'HOME',
   },
   {
     title: 'PEDIDOS',
@@ -99,7 +99,13 @@ const Order = () => {
         </LimitedContainer>
       </DisplayFlexJustifyBetween>
 
-      <Table columns={columns} dataSource={ordersFiltered} />
+      <Table
+        columns={columns}
+        dataSource={ordersFiltered}
+        onRow={(record: OrderType) => ({
+          onClick: () => navigate(`${OrderRouteEnum.ORDER}/${record.id}`),
+        })}
+      />
     </Screen>
   );
 };

@@ -35,7 +35,7 @@ const CategoryInsert = () => {
 
   const listBreadcrumb = [
     {
-      title: 'Home',
+      title: 'HOME',
     },
     {
       title: 'CATEGORIAS',

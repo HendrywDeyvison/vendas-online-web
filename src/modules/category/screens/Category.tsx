@@ -16,7 +16,7 @@ import { CategoryRouteEnum } from '../routes';
 
 const listBreadcrumb = [
   {
-    title: 'Home',
+    title: 'HOME',
   },
   {
     title: 'CATEGORIAS',
