@@ -1,5 +1,7 @@
 import { Descriptions, DescriptionsProps } from 'antd';
 
+import { insertMaskInCpf } from '../../../shared/functions/cpf';
+import { insertMaskInPhone } from '../../../shared/functions/phone';
 import { UserType } from '../../login/types/UserType';
 
 interface DescriptionUserOrderDetailProps {
@@ -20,13 +22,13 @@ const DescriptionUserOrderDetail = ({ userData, title }: DescriptionUserOrderDet
     {
       key: '2',
       label: 'CPF',
-      children: userData.cpf,
+      children: insertMaskInCpf(userData.cpf),
       span: 2,
     },
     {
       key: '3',
       label: 'Telefone',
-      children: userData.phone,
+      children: insertMaskInPhone(userData.phone),
     },
     {
       key: '4',

@@ -1,5 +1,6 @@
 import { Descriptions, DescriptionsProps } from 'antd';
 
+import { insertMaskInCep } from '../../../shared/functions/cep';
 import { AddressType } from '../../../shared/types/AddressType';
 
 interface DescriptionAddressOrderDetailProps {
@@ -40,7 +41,7 @@ const DescriptionAddressOrderDetail = ({
     {
       key: '5',
       label: 'CEP',
-      children: addressData.cep,
+      children: insertMaskInCep(addressData.cep),
       span: 2,
     },
   ];
