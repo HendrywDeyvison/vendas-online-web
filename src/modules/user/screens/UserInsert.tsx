@@ -20,11 +20,11 @@ const UserInsert = () => {
       title: 'HOME',
     },
     {
-      title: 'CLIENTES',
+      title: 'USUÁRIOS',
       navigateTo: UserRouteEnum.USER,
     },
     {
-      title: 'INSERIR CLIENTE',
+      title: 'INSERIR USUÁRIO',
     },
   ];
 

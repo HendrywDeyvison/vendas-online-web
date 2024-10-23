@@ -1,5 +1,5 @@
 import { GetProps, Input, TableProps } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../../../shared/components/buttons/button/Button';
@@ -9,6 +9,8 @@ import { LimitedContainer } from '../../../shared/components/styles/limitedConte
 import Table from '../../../shared/components/table/Table';
 import { URL_USER_ALL } from '../../../shared/constants/urls';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
+import { UserTypeEnum } from '../../../shared/enums/userType.enum';
+import { getUserInfoByToken } from '../../../shared/functions/connections/auth';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import { useUserReducer } from '../../../store/reducers/userReducer/useUserReducer';
 import { UserType } from '../../login/types/UserType';
@@ -21,7 +23,7 @@ const listBreadcrumb = [
     title: 'HOME',
   },
   {
-    title: 'CLIENTES',
+    title: 'USUÁRIOS',
   },
 ];
 
@@ -71,6 +73,10 @@ const User = () => {
   const { request } = useRequests();
   const navigate = useNavigate();
 
+  const userToken = useMemo(() => getUserInfoByToken(), []);
+
+  console.log('TESTE: ', userToken);
+
   useEffect(() => {
     setUsersFiltered(users);
   }, [users]);
@@ -97,13 +103,15 @@ const User = () => {
     <Screen listBreadcrumb={listBreadcrumb}>
       <DisplayFlexJustifyBetween margin="0px 0px 16px 0px">
         <LimitedContainer width={'240px'}>
-          <Search placeholder="Buscar produto" onSearch={onSearch} enterButton />
+          <Search placeholder="Buscar usuário" onSearch={onSearch} enterButton />
         </LimitedContainer>
 
         <LimitedContainer width={'120px'}>
-          <Button type="primary" onClick={handleOnClickInsert}>
-            Inserir
-          </Button>
+          {userToken?.typeUser === UserTypeEnum.Root && (
+            <Button type="primary" onClick={handleOnClickInsert}>
+              Inserir Admin
+            </Button>
+          )}
         </LimitedContainer>
       </DisplayFlexJustifyBetween>
 

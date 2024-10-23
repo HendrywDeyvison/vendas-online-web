@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
 
 import { UserType } from '../../../modules/login/types/UserType';
-import { ResponseDataType } from '../../../shared/types/ResponseDataType';
 import { useAppSelector } from '../../hooks';
 import { setUsersAction } from '.';
 
