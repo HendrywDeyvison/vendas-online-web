@@ -58,6 +58,7 @@ const UserInsert = () => {
             onChange={(event) => onChangeInput(event, 'cpf')}
           />
           <Input
+            type="phone"
             value={user?.phone}
             label="Telefone:"
             placeholder="Telefone"
@@ -65,6 +66,7 @@ const UserInsert = () => {
             onChange={(event) => onChangeInput(event, 'phone')}
           />
           <Input
+            type="email"
             value={user?.email}
             label="E-mail:"
             placeholder="E-mail"
@@ -72,6 +74,7 @@ const UserInsert = () => {
             onChange={(event) => onChangeInput(event, 'email')}
           />
           <Input
+            type="password"
             value={user?.password}
             label="Senha:"
             placeholder="Senha"

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { URL_USER } from '../../../shared/constants/urls';
+import { URL_USER_ADMIN } from '../../../shared/constants/urls';
 import { InsertUserDto } from '../../../shared/dtos/insertUser.dto';
 import { connectionAPIPost } from '../../../shared/functions/connections/connectionAPI';
 import { useGlobalReducer } from '../../../store/reducers/globalReducer/useGlobalReducer';
@@ -46,7 +46,7 @@ export const useInsertUser = () => {
   const handleOnClickInsert = async () => {
     setLoading(true);
 
-    await connectionAPIPost(URL_USER, user).catch((error: Error) => {
+    await connectionAPIPost(URL_USER_ADMIN, user).catch((error: Error) => {
       setNotification('error', 'Erro ao tentar inserir um novo produto', error.message);
     });
 

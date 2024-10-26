@@ -1,93 +1,81 @@
-import { GetProps, Input, TableProps } from 'antd';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Input, TableProps } from 'antd';
+import { useMemo } from 'react';
 
 import Button from '../../../shared/components/buttons/button/Button';
 import Screen from '../../../shared/components/screen/Screen';
 import { DisplayFlexJustifyBetween } from '../../../shared/components/styles/display.style';
 import { LimitedContainer } from '../../../shared/components/styles/limitedConteiner.style';
 import Table from '../../../shared/components/table/Table';
-import { URL_PRODUCT } from '../../../shared/constants/urls';
-import { MethodsEnum } from '../../../shared/enums/methods.enum';
 import { convertNumberToMoney } from '../../../shared/functions/currency';
-import { useRequests } from '../../../shared/hooks/useRequests';
 import { ProductType } from '../../../shared/types/ProductType';
-import { useProductReducer } from '../../../store/reducers/productReducer/useProductReducer';
 import CategoryColumn from '../components/CategoryColumn';
 import TooltipImage from '../components/TooltipImage';
-import { ProductRouteEnum } from '../routes';
-
-type SearchProps = GetProps<typeof Input.Search>;
-
-const listBreadcrumb = [
-  {
-    title: 'HOME',
-  },
-  {
-    title: 'PRODUTOS',
-  },
-];
-
-const columns: TableProps<ProductType>['columns'] = [
-  {
-    title: 'Id',
-    dataIndex: 'id',
-    key: 'id',
-    sorter: (a, b) => a.id - b.id,
-    render: (_, product) => <TooltipImage product={product} />,
-  },
-  {
-    title: 'Nome',
-    dataIndex: 'name',
-    key: 'name',
-    sorter: (a, b) => a.name.localeCompare(b.name),
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: 'Categoria',
-    dataIndex: 'category',
-    key: 'category',
-    sorter: (a, b) => a.category.name.localeCompare(b.category.name),
-    render: (_, product) => <CategoryColumn category={product.category} />,
-  },
-  {
-    title: 'Preço',
-    dataIndex: 'price',
-    key: 'price',
-    sorter: (a, b) => a.price - b.price,
-    render: (_, product) => <a>{convertNumberToMoney(product.price)}</a>,
-  },
-];
-
-const { Search } = Input;
+import { useProduct } from '../hooks/useProduct';
 
 const Product = () => {
-  const { products, setProducts } = useProductReducer();
-  const [productsFiltered, setProductsFiltered] = useState<ProductType[]>();
-  const { request } = useRequests();
-  const navigate = useNavigate();
+  const { productsFiltered, onSearch, handleOnClickInsert, handleOnClickDelete } = useProduct();
 
-  useEffect(() => {
-    setProductsFiltered(products);
-  }, [products]);
+  const listBreadcrumb = [
+    {
+      title: 'HOME',
+    },
+    {
+      title: 'PRODUTOS',
+    },
+  ];
 
-  useEffect(() => {
-    request(URL_PRODUCT, MethodsEnum.GET, setProducts);
-  }, []);
+  const columns: TableProps<ProductType>['columns'] = useMemo(
+    () => [
+      {
+        title: 'Id',
+        dataIndex: 'id',
+        key: 'id',
+        sorter: (a, b) => a.id - b.id,
+        render: (_, product) => <TooltipImage product={product} />,
+      },
+      {
+        title: 'Nome',
+        dataIndex: 'name',
+        key: 'name',
+        sorter: (a, b) => a.name.localeCompare(b.name),
+        render: (text) => <a>{text}</a>,
+      },
+      {
+        title: 'Categoria',
+        dataIndex: 'category',
+        key: 'category',
+        sorter: (a, b) => a.category.name.localeCompare(b.category.name),
+        render: (_, product) => <CategoryColumn category={product.category} />,
+      },
+      {
+        title: 'Preço',
+        dataIndex: 'price',
+        key: 'price',
+        sorter: (a, b) => a.price - b.price,
+        render: (_, product) => <a>{convertNumberToMoney(product.price)}</a>,
+      },
+      {
+        title: 'Preço',
+        dataIndex: 'price',
+        key: 'price',
+        sorter: (a, b) => a.price - b.price,
+        render: (_, product) => <a>{convertNumberToMoney(product.price)}</a>,
+      },
+      {
+        title: 'Action',
+        dataIndex: '',
+        key: 'action',
+        render: (_, product) => (
+          <Button danger type="primary" onClick={() => handleOnClickDelete(product.id)}>
+            Deletar
+          </Button>
+        ),
+      },
+    ],
+    [],
+  );
 
-  const handleOnClickInsert = () => {
-    navigate(ProductRouteEnum.PRODUCT_INSERT);
-  };
-
-  const onSearch: SearchProps['onSearch'] = (value: string) => {
-    if (value.length) {
-      setProductsFiltered(
-        products?.filter((product) => product.name.toLowerCase().includes(value.toLowerCase())),
-      );
-    } else {
-      setProductsFiltered([...products]);
-    }
-  };
+  const { Search } = Input;
 
   return (
     <Screen listBreadcrumb={listBreadcrumb}>
