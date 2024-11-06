@@ -1,9 +1,13 @@
-import { Input, TableProps } from 'antd';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Input, Modal, TableProps } from 'antd';
 import { useMemo } from 'react';
 
 import Button from '../../../shared/components/buttons/button/Button';
 import Screen from '../../../shared/components/screen/Screen';
-import { DisplayFlexJustifyBetween } from '../../../shared/components/styles/display.style';
+import {
+  DisplayFlex,
+  DisplayFlexJustifyBetween,
+} from '../../../shared/components/styles/display.style';
 import { LimitedContainer } from '../../../shared/components/styles/limitedConteiner.style';
 import Table from '../../../shared/components/table/Table';
 import { convertNumberToMoney } from '../../../shared/functions/currency';
@@ -13,7 +17,16 @@ import TooltipImage from '../components/TooltipImage';
 import { useProduct } from '../hooks/useProduct';
 
 const Product = () => {
-  const { productsFiltered, onSearch, handleOnClickInsert, handleOnClickDelete } = useProduct();
+  const {
+    productsFiltered,
+    onSearch,
+    handleOnClickInsert,
+    handleOnClickEdit,
+    isModalOpen,
+    showModal,
+    handleOk,
+    handleCancel,
+  } = useProduct();
 
   const listBreadcrumb = [
     {
@@ -66,9 +79,25 @@ const Product = () => {
         dataIndex: '',
         key: 'action',
         render: (_, product) => (
-          <Button danger type="primary" onClick={() => handleOnClickDelete(product.id)}>
-            Deletar
-          </Button>
+          <LimitedContainer width="180px">
+            <DisplayFlex>
+              <Button
+                margin="0px 16px 0px 0px"
+                onClick={() => handleOnClickEdit(product.id)}
+                icon={<EditOutlined />}
+              >
+                Editar
+              </Button>
+              <Button
+                danger
+                type="primary"
+                onClick={() => showModal(product.id)}
+                icon={<DeleteOutlined />}
+              >
+                Deletar
+              </Button>
+            </DisplayFlex>
+          </LimitedContainer>
         ),
       },
     ],
@@ -79,6 +108,16 @@ const Product = () => {
 
   return (
     <Screen listBreadcrumb={listBreadcrumb}>
+      <Modal
+        title="Atenção"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        okText="Sim, tenho certeza!"
+        cancelText="Não!"
+      >
+        <p>Tem certeza que deseja deletar o produto?</p>
+      </Modal>
       <DisplayFlexJustifyBetween margin="0px 0px 16px 0px">
         <LimitedContainer width={'240px'}>
           <Search placeholder="Buscar produto" onSearch={onSearch} enterButton />

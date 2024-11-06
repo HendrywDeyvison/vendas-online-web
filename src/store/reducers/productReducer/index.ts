@@ -5,10 +5,12 @@ import { ProductType } from '../../../shared/types/ProductType';
 
 interface ProductState {
   products: ProductType[];
+  product?: ProductType;
 }
 
 const initialState: ProductState = {
   products: [],
+  product: undefined,
 };
 
 export const productReducer = createSlice({
@@ -18,9 +20,12 @@ export const productReducer = createSlice({
     setProductsAction: (state, action: PayloadAction<ProductType[]>) => {
       state.products = action.payload;
     },
+    setProductAction: (state, action: PayloadAction<ProductType | undefined>) => {
+      state.product = action.payload;
+    },
   },
 });
 
-export const { setProductsAction } = productReducer.actions;
+export const { setProductsAction, setProductAction } = productReducer.actions;
 
 export default productReducer.reducer;

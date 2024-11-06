@@ -7,6 +7,7 @@ import InputMoney from '../../../shared/components/inputs/input/inputMoney/input
 import Select from '../../../shared/components/inputs/select/Select';
 import Screen from '../../../shared/components/screen/Screen';
 import {
+  DisplayFlex,
   DisplayFlexJustifyCenter,
   DisplayFlexJustifyRight,
 } from '../../../shared/components/styles/display.style';
@@ -63,49 +64,6 @@ const ProductInsert = () => {
             margin="0px 0px 16px 0px"
             onChange={(event) => onChangeInput(event, 'name')}
           />
-          <InputMoney
-            value={product?.price}
-            label="Preço:"
-            placeholder="Preço"
-            margin="0px 0px 16px 0px"
-            onChange={(event) => onChangeInput(event, 'price', true)}
-          />
-          <InputMeasure
-            value={product?.length}
-            label="Comprimento:"
-            placeholder="Comprimento"
-            margin="0px 0px 16px 0px"
-            onChange={(event) => onChangeInput(event, 'length', true)}
-          />
-          <InputMeasure
-            value={product?.height}
-            label="Altura:"
-            placeholder="Altura"
-            margin="0px 0px 16px 0px"
-            onChange={(event) => onChangeInput(event, 'height', true)}
-          />
-          <InputMeasure
-            value={product?.width}
-            label="Largura:"
-            placeholder="Largura"
-            margin="0px 0px 16px 0px"
-            onChange={(event) => onChangeInput(event, 'width', true)}
-          />
-          <InputMeasure
-            value={product?.weight}
-            label="Peso:"
-            placeholder="Peso"
-            margin="0px 0px 16px 0px"
-            addonBefore="Kg"
-            onChange={(event) => onChangeInput(event, 'weight', true)}
-          />
-          <InputMeasure
-            value={product?.diameter}
-            label="Diametro:"
-            placeholder="Diametro"
-            margin="0px 0px 16px 0px"
-            onChange={(event) => onChangeInput(event, 'diameter', true)}
-          />
           <Input
             value={product?.image}
             label="Url Imagem:"
@@ -113,12 +71,60 @@ const ProductInsert = () => {
             margin="0px 0px 16px 0px"
             onChange={(event) => onChangeInput(event, 'image')}
           />
+          <InputMoney
+            value={product?.price}
+            label="Preço:"
+            placeholder="Preço"
+            margin="0px 0px 16px 0px"
+            onChange={(event) => onChangeInput(event, 'price', true)}
+          />
           <Select
             label="Categoria:"
-            margin={'0px 0px 32px 0px'}
+            margin={'0px 0px 16px 0px'}
             defaultValue="Selecione"
             onChange={handleChangeSelect}
             options={[...listOptions]}
+          />
+          <DisplayFlex>
+            <InputMeasure
+              value={product?.weight}
+              label="Peso:"
+              placeholder="Peso"
+              margin="0px 16px 16px 0px"
+              addonBefore="Kg"
+              onChange={(event) => onChangeInput(event, 'weight', true)}
+            />
+            <InputMeasure
+              value={product?.length}
+              label="Comprimento:"
+              placeholder="Comprimento"
+              margin="0px 0px 16px 0px"
+              onChange={(event) => onChangeInput(event, 'length', true)}
+            />
+          </DisplayFlex>
+          <DisplayFlex>
+            <InputMeasure
+              value={product?.height}
+              label="Altura:"
+              placeholder="Altura"
+              margin="0px 16px 16px 0px"
+              onChange={(event) => onChangeInput(event, 'height', true)}
+            />
+            <InputMeasure
+              value={product?.width}
+              label="Largura:"
+              placeholder="Largura"
+              margin="0px 0px 16px 0px"
+              onChange={(event) => onChangeInput(event, 'width', true)}
+            />
+          </DisplayFlex>
+
+          <InputMeasure
+            value={product?.diameter}
+            label="Diametro:"
+            placeholder="Diametro"
+            margin="0px 0px 16px 0px"
+            onChange={(event) => onChangeInput(event, 'diameter', true)}
           />
 
           <DisplayFlexJustifyRight>
