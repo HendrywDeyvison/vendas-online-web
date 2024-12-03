@@ -1,18 +1,16 @@
-import { GetProps, Input, TableProps } from 'antd';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Input, Modal, TableProps } from 'antd';
 
 import Button from '../../../shared/components/buttons/button/Button';
 import Screen from '../../../shared/components/screen/Screen';
-import { DisplayFlexJustifyBetween } from '../../../shared/components/styles/display.style';
+import {
+  DisplayFlex,
+  DisplayFlexJustifyBetween,
+} from '../../../shared/components/styles/display.style';
 import { LimitedContainer } from '../../../shared/components/styles/limitedConteiner.style';
 import Table from '../../../shared/components/table/Table';
-import { URL_CATEGORY } from '../../../shared/constants/urls';
-import { MethodsEnum } from '../../../shared/enums/methods.enum';
-import { useRequests } from '../../../shared/hooks/useRequests';
 import { CategoryType } from '../../../shared/types/CategoryType';
-import { useCategoryReducer } from '../../../store/reducers/categoryReducer/useCategoryReducer';
-import { CategoryRouteEnum } from '../routes';
+import { useCategory } from '../hooks/useCategory';
 
 const listBreadcrumb = [
   {
@@ -23,63 +21,86 @@ const listBreadcrumb = [
   },
 ];
 
-const columns: TableProps<CategoryType>['columns'] = [
-  {
-    title: 'Id',
-    dataIndex: 'id',
-    key: 'id',
-    sorter: (a, b) => a.id - b.id,
-  },
-  {
-    title: 'Nome',
-    dataIndex: 'name',
-    key: 'name',
-    sorter: (a, b) => a.name.localeCompare(b.name),
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: 'Qtd. Produtos',
-    dataIndex: 'amountProducts',
-    key: 'amountProducts',
-    sorter: (a, b) => a.amountProducts - b.amountProducts,
-    render: (text) => <a>{text}</a>,
-  },
-];
-
 const { Search } = Input;
 
-type SearchProps = GetProps<typeof Input.Search>;
-
 const Category = () => {
-  const { categories, setCategories } = useCategoryReducer();
-  const [categoriesFiltered, setCategoriesFiltered] = useState<CategoryType[]>();
-  const { request } = useRequests();
-  const navigate = useNavigate();
+  const {
+    categoriesFiltered,
+    categoryName,
+    handleOnClickInsert,
+    onSearch,
+    handleOnClickEdit,
+    showModal,
+    isModalOpen,
+    handleOk,
+    handleCancel,
+  } = useCategory();
 
-  useEffect(() => {
-    setCategoriesFiltered(categories);
-  }, [categories]);
-
-  useEffect(() => {
-    request(URL_CATEGORY, MethodsEnum.GET, setCategories);
-  }, []);
-
-  const handleOnClickInsert = () => {
-    navigate(CategoryRouteEnum.CATEGORY_INSERT);
-  };
-
-  const onSearch: SearchProps['onSearch'] = (value: string) => {
-    if (value.length) {
-      setCategoriesFiltered(
-        categories?.filter((category) => category.name.toLowerCase().includes(value.toLowerCase())),
-      );
-    } else {
-      setCategoriesFiltered([...categories]);
-    }
-  };
+  const columns: TableProps<CategoryType>['columns'] = [
+    {
+      title: 'Id',
+      dataIndex: 'id',
+      key: 'id',
+      sorter: (a, b) => a.id - b.id,
+    },
+    {
+      title: 'Nome',
+      dataIndex: 'name',
+      key: 'name',
+      sorter: (a, b) => a.name.localeCompare(b.name),
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: 'Qtd. Produtos',
+      dataIndex: 'amountProducts',
+      key: 'amountProducts',
+      sorter: (a, b) => a.amountProducts - b.amountProducts,
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: 'Action',
+      dataIndex: '',
+      key: 'action',
+      render: (_, category) => (
+        <LimitedContainer width="180px">
+          <DisplayFlex>
+            <LimitedContainer width="90px" margin="0px 16px 0px 0px">
+              <Button onClick={() => handleOnClickEdit(category.id)} icon={<EditOutlined />}>
+                Editar
+              </Button>
+            </LimitedContainer>
+            <LimitedContainer width="90px">
+              {category?.amountProducts <= 0 && (
+                <Button
+                  danger
+                  type="primary"
+                  onClick={() => showModal(category.id, category.name)}
+                  icon={<DeleteOutlined />}
+                >
+                  Deletar
+                </Button>
+              )}
+            </LimitedContainer>
+          </DisplayFlex>
+        </LimitedContainer>
+      ),
+    },
+  ];
 
   return (
     <Screen listBreadcrumb={listBreadcrumb}>
+      <Modal
+        title="Atenção"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        okText="Sim, tenho certeza!"
+        cancelText="Não!"
+      >
+        <p>
+          Tem certeza que deseja deletar a categoria: <strong>{categoryName}</strong>?
+        </p>
+      </Modal>
       <DisplayFlexJustifyBetween margin="0px 0px 16px 0px">
         <LimitedContainer width={'240px'}>
           <Search placeholder="Buscar categoria" onSearch={onSearch} enterButton />
